@@ -188,23 +188,20 @@ public class Controller : MonoBehaviour
             // Move around with WASD---------------------------------------------------------
 
             //move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-            move = new Vector3(movePlayer.ReadValue<Vector2>().x, 0, movePlayer.ReadValue<Vector2>().y);            
+            move = new Vector3(movePlayer.ReadValue<Vector2>().x, 0, movePlayer.ReadValue<Vector2>().y); //Nuevo sistema
 
-            print(movePlayer.ReadValue<Vector2>());
-            
+            //print(movePlayer.ReadValue<Vector2>());
             
             if (move.sqrMagnitude > 1.0f)
+            {
                 move.Normalize();
-
+            }
 
             usedSpeed = m_Grounded ? actualSpeed : m_SpeedAtJump;
-
             move = move * usedSpeed * Time.deltaTime;
-
             move = transform.TransformDirection(move);
             m_CharacterController.Move(move);
 
-            //NewMovement(playerControls);
             ////---------------------------------------------------------------------------------
             
             // Turn player
@@ -226,7 +223,7 @@ public class Controller : MonoBehaviour
             currentAngles.x = m_VerticalAngle;
             CameraPosition.transform.localEulerAngles = currentAngles;
   
-            m_Weapons[m_CurrentWeapon].triggerDown = Input.GetMouseButton(0);
+            //m_Weapons[m_CurrentWeapon].triggerDown = Input.GetMouseButton(0); // Fire?
 
             Speed = move.magnitude / (PlayerSpeed * Time.deltaTime);
 
@@ -369,6 +366,20 @@ public class Controller : MonoBehaviour
             Debug.Log("Im jumpin");
         }
         //Debug.Log("Input");
+    }
+
+    public void FireWeapon(InputAction.CallbackContext context)
+    {
+        //m_Weapons[m_CurrentWeapon].triggerDown = Input.GetMouseButton(0);
+        if (!context.canceled)
+        {
+            m_Weapons[m_CurrentWeapon].triggerDown = true;
+        }
+        else
+        {
+            m_Weapons[m_CurrentWeapon].triggerDown = false;
+        }
+        Debug.Log("Input:"+context);
     }
 
     /*public void NewMovement(InputAction.CallbackContext context)
