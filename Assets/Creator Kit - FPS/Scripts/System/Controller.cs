@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -51,6 +52,7 @@ public class Controller : MonoBehaviour
     public bool CanPause { get; set; } = true;
 
     public bool Grounded => m_Grounded;
+    bool loosedGrounding = false;
 
     CharacterController m_CharacterController;
 
@@ -58,14 +60,33 @@ public class Controller : MonoBehaviour
     float m_GroundedTimer;
     float m_SpeedAtJump = 0.0f;
 
+    float usedSpeed;
+    float actualSpeed;
+
     List<Weapon> m_Weapons = new List<Weapon>();
     Dictionary<int, int> m_AmmoInventory = new Dictionary<int, int>();
+
+
+    //public InputAction playerControls;
+    public MyPlayerInputActions myPlayerInputActions;
+    InputAction movePlayer;
 
     void Awake()
     {
         Instance = this;
+        myPlayerInputActions = new MyPlayerInputActions();
     }
-    
+    public void OnEnable()
+    {
+        movePlayer = myPlayerInputActions.Player.Movement;
+        movePlayer.Enable();
+    }
+
+    private void OnDisable()
+    {
+        movePlayer.Disable();
+    }
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -111,7 +132,7 @@ public class Controller : MonoBehaviour
         FullscreenMap.Instance.gameObject.SetActive(Input.GetButton("Map"));
 
         bool wasGrounded = m_Grounded;
-        bool loosedGrounding = false;
+        loosedGrounding = false;
         
         //we define our own grounded and not use the Character controller one as the character controller can flicker
         //between grounded/not grounded on small step and the like. So we actually make the controller "not grounded" only
@@ -139,6 +160,7 @@ public class Controller : MonoBehaviour
         if (!m_IsPaused && !LockControl)
         {
             // Jump (we do it first as 
+            /*
             if (m_Grounded && Input.GetButtonDown("Jump"))
             {
                 m_VerticalSpeed = JumpSpeed;
@@ -146,26 +168,44 @@ public class Controller : MonoBehaviour
                 loosedGrounding = true;
                 FootstepPlayer.PlayClip(JumpingAudioCLip, 0.8f,1.1f);
             }
-            
+            */
+            //if not grounded && input ... try unreal logic
+            //Jump has separated method
+
+            if (m_Grounded)
+            {
+                loosedGrounding = true;
+            }
+
             bool running = m_Weapons[m_CurrentWeapon].CurrentState == Weapon.WeaponState.Idle && Input.GetButton("Run");
-            float actualSpeed = running ? RunningSpeed : PlayerSpeed;
+            actualSpeed = running ? RunningSpeed : PlayerSpeed;
 
             if (loosedGrounding)
             {
                 m_SpeedAtJump = actualSpeed;
             }
 
-            // Move around with WASD
-            move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+            // Move around with WASD---------------------------------------------------------
+
+            //move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+            move = new Vector3(movePlayer.ReadValue<Vector2>().x, 0, movePlayer.ReadValue<Vector2>().y);            
+
+            print(movePlayer.ReadValue<Vector2>());
+            
+            
             if (move.sqrMagnitude > 1.0f)
                 move.Normalize();
 
-            float usedSpeed = m_Grounded ? actualSpeed : m_SpeedAtJump;
-            
+
+            usedSpeed = m_Grounded ? actualSpeed : m_SpeedAtJump;
+
             move = move * usedSpeed * Time.deltaTime;
-            
+
             move = transform.TransformDirection(move);
             m_CharacterController.Move(move);
+
+            //NewMovement(playerControls);
+            ////---------------------------------------------------------------------------------
             
             // Turn player
             float turnPlayer =  Input.GetAxis("Mouse X") * MouseSensitivity;
@@ -315,4 +355,38 @@ public class Controller : MonoBehaviour
     {
         FootstepPlayer.PlayRandom();
     }
+
+    
+
+    public void NewJump(InputAction.CallbackContext context)
+    {
+        if (m_Grounded && context.started)
+        {
+            m_VerticalSpeed = JumpSpeed;
+            m_Grounded = false;
+            //loosedGrounding = true;
+            FootstepPlayer.PlayClip(JumpingAudioCLip, 0.8f, 1.1f);
+            Debug.Log("Im jumpin");
+        }
+        //Debug.Log("Input");
+    }
+
+    /*public void NewMovement(InputAction.CallbackContext context)
+    {
+        //Debug.Log("Input:" + context);
+        Vector3 move = Vector3.zero;
+        //move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        move = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
+        if (move.sqrMagnitude > 1.0f)
+            move.Normalize();
+
+        //usedSpeed = m_Grounded ? actualSpeed : m_SpeedAtJump;
+
+        move = move * usedSpeed * Time.deltaTime;
+
+        move = transform.TransformDirection(move);
+        m_CharacterController.Move(move);
+
+    }
+    */
 }
