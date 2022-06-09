@@ -3477,6 +3477,42 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 4f252050-b45b-4dde-997e-f5a04cb7069b
     m_ActionName: Player/Fire[/Mouse/middleButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ea8ce59a-b745-453e-89ef-2e3db9dbc0e0
+    m_ActionName: Player/LookAround
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 791076952}
+        m_TargetAssemblyTypeName: Controller, Assembly-CSharp
+        m_MethodName: ReloadWeapon
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 8a962e70-6035-40e1-9ef0-d50fa8815a78
+    m_ActionName: Player/Reload[/Keyboard/r,/XInputControllerWindows/buttonWest]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 791076952}
+        m_TargetAssemblyTypeName: Controller, Assembly-CSharp
+        m_MethodName: Input_ChangeWeapon
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f5fd6192-50cf-49ab-89ee-ec71af624fb6
+    m_ActionName: Player/ChangeWeapon[/Mouse/scroll]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
