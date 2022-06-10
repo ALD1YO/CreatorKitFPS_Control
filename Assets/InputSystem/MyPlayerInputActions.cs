@@ -89,6 +89,42 @@ public partial class @MyPlayerInputActions : IInputActionCollection2, IDisposabl
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""f8a89e86-b18a-4846-943d-62852db9e7f3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Map"",
+                    ""type"": ""Button"",
+                    ""id"": ""859d0bb9-7cd1-4121-924f-2ee916d5228b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Load"",
+                    ""type"": ""Button"",
+                    ""id"": ""46f881be-a26e-4926-ac31-83f17ad8cecc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Save"",
+                    ""type"": ""Button"",
+                    ""id"": ""e603b11b-37c4-401a-bb68-6ecf6ea42954"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -289,6 +325,94 @@ public partial class @MyPlayerInputActions : IInputActionCollection2, IDisposabl
                     ""action"": ""Run"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cb0a309f-dcc4-43bf-ac05-92b44f3f4973"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse&Keyboard"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""431ddbc3-5d7c-4782-b2a0-4beb26603972"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a0b0fbda-1ee6-4368-9275-6d64912de933"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Map"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""13c22d4a-00f0-4db5-a719-1e154aea2d9b"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse&Keyboard"",
+                    ""action"": ""Map"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8d38d425-c58a-4dc8-8885-413cb0add3fd"",
+                    ""path"": ""<Keyboard>/o"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse&Keyboard"",
+                    ""action"": ""Save"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f752bc9b-4bb1-4993-82d2-418b738c8233"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Save"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""82e0a751-046d-4cf7-9e57-85b1cb8d9a62"",
+                    ""path"": ""<Keyboard>/l"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse&Keyboard"",
+                    ""action"": ""Load"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6f86d8b0-fbd7-487d-ac4e-0ce7281fadd9"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Load"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -332,6 +456,10 @@ public partial class @MyPlayerInputActions : IInputActionCollection2, IDisposabl
         m_Player_LookAround = m_Player.FindAction("LookAround", throwIfNotFound: true);
         m_Player_ChangeWeapon = m_Player.FindAction("ChangeWeapon", throwIfNotFound: true);
         m_Player_Run = m_Player.FindAction("Run", throwIfNotFound: true);
+        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
+        m_Player_Map = m_Player.FindAction("Map", throwIfNotFound: true);
+        m_Player_Load = m_Player.FindAction("Load", throwIfNotFound: true);
+        m_Player_Save = m_Player.FindAction("Save", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -398,6 +526,10 @@ public partial class @MyPlayerInputActions : IInputActionCollection2, IDisposabl
     private readonly InputAction m_Player_LookAround;
     private readonly InputAction m_Player_ChangeWeapon;
     private readonly InputAction m_Player_Run;
+    private readonly InputAction m_Player_Pause;
+    private readonly InputAction m_Player_Map;
+    private readonly InputAction m_Player_Load;
+    private readonly InputAction m_Player_Save;
     public struct PlayerActions
     {
         private @MyPlayerInputActions m_Wrapper;
@@ -409,6 +541,10 @@ public partial class @MyPlayerInputActions : IInputActionCollection2, IDisposabl
         public InputAction @LookAround => m_Wrapper.m_Player_LookAround;
         public InputAction @ChangeWeapon => m_Wrapper.m_Player_ChangeWeapon;
         public InputAction @Run => m_Wrapper.m_Player_Run;
+        public InputAction @Pause => m_Wrapper.m_Player_Pause;
+        public InputAction @Map => m_Wrapper.m_Player_Map;
+        public InputAction @Load => m_Wrapper.m_Player_Load;
+        public InputAction @Save => m_Wrapper.m_Player_Save;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -439,6 +575,18 @@ public partial class @MyPlayerInputActions : IInputActionCollection2, IDisposabl
                 @Run.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
                 @Run.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
                 @Run.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
+                @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Map.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMap;
+                @Map.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMap;
+                @Map.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMap;
+                @Load.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLoad;
+                @Load.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLoad;
+                @Load.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLoad;
+                @Save.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSave;
+                @Save.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSave;
+                @Save.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSave;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -464,6 +612,18 @@ public partial class @MyPlayerInputActions : IInputActionCollection2, IDisposabl
                 @Run.started += instance.OnRun;
                 @Run.performed += instance.OnRun;
                 @Run.canceled += instance.OnRun;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
+                @Map.started += instance.OnMap;
+                @Map.performed += instance.OnMap;
+                @Map.canceled += instance.OnMap;
+                @Load.started += instance.OnLoad;
+                @Load.performed += instance.OnLoad;
+                @Load.canceled += instance.OnLoad;
+                @Save.started += instance.OnSave;
+                @Save.performed += instance.OnSave;
+                @Save.canceled += instance.OnSave;
             }
         }
     }
@@ -495,5 +655,9 @@ public partial class @MyPlayerInputActions : IInputActionCollection2, IDisposabl
         void OnLookAround(InputAction.CallbackContext context);
         void OnChangeWeapon(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
+        void OnMap(InputAction.CallbackContext context);
+        void OnLoad(InputAction.CallbackContext context);
+        void OnSave(InputAction.CallbackContext context);
     }
 }

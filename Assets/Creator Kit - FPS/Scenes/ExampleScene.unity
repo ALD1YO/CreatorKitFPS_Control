@@ -3513,6 +3513,58 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f5fd6192-50cf-49ab-89ee-ec71af624fb6
     m_ActionName: Player/ChangeWeapon[/Mouse/scroll]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 779faf72-573f-4fcb-b00d-aeed68dc68ee
+    m_ActionName: Player/Run[/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f8a89e86-b18a-4846-943d-62852db9e7f3
+    m_ActionName: Player/Pause[/Keyboard/escape,/XInputControllerWindows/start,/DualShock4GamepadHID/start]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 859d0bb9-7cd1-4121-924f-2ee916d5228b
+    m_ActionName: Player/Map[/XInputControllerWindows/select,/DualShock4GamepadHID/select,/Keyboard/tab]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 791076952}
+        m_TargetAssemblyTypeName: Controller, Assembly-CSharp
+        m_MethodName: SavePlayer
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e603b11b-37c4-401a-bb68-6ecf6ea42954
+    m_ActionName: Player/Save[/Keyboard/o]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 791076952}
+        m_TargetAssemblyTypeName: Controller, Assembly-CSharp
+        m_MethodName: LoadPlayer
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 46f881be-a26e-4926-ac31-83f17ad8cecc
+    m_ActionName: Player/Load[/Keyboard/l]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e45e2f14-f60c-465d-8f57-a1fcc11e740e
+    m_ActionName: UI/Unpause
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 155097e5-6447-4cf4-9c12-15a02928f1f3
+    m_ActionName: UI/QuitGame[/DualShock4GamepadHID/buttonEast,/XInputControllerWindows/buttonEast]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

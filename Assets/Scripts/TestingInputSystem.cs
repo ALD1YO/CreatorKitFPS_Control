@@ -11,7 +11,7 @@ public class TestingInputSystem : MonoBehaviour
     {
         if (context.started)
         {
-            Debug.Log("Jump!" + context.phase);
+            //Debug.Log("Jump!" + context.phase);
             //controller.NewJump();
         }
         //Debug.Log("Jump!" + context.phase);

@@ -73,6 +73,11 @@ public class Controller : MonoBehaviour
     InputAction rotatePlayer;
     InputAction changeWeapon;
     InputAction run;
+    InputAction pauseGame;
+    InputAction map;
+    InputAction load;
+    InputAction save;
+
 
     void Awake()
     {
@@ -93,6 +98,18 @@ public class Controller : MonoBehaviour
 
         run = myPlayerInputActions.Player.Run;
         run.Enable();
+
+        pauseGame = myPlayerInputActions.Player.Pause;
+        pauseGame.Enable();
+
+        map = myPlayerInputActions.Player.Map;
+        map.Enable();
+
+        load = myPlayerInputActions.Player.Load;
+        load.Enable();
+
+        save = myPlayerInputActions.Player.Save;
+        save.Enable();
     }
 
     private void OnDisable()
@@ -101,6 +118,10 @@ public class Controller : MonoBehaviour
         rotatePlayer.Disable();
         changeWeapon.Disable();
         run.Disable();
+        pauseGame.Disable();
+        map.Disable();
+        load.Disable();
+        save.Disable();
     }
 
     void Start()
@@ -140,12 +161,27 @@ public class Controller : MonoBehaviour
 
     void Update()
     {
-        if (CanPause && Input.GetButtonDown("Menu")) //Pausar el juego
+        //if (CanPause && Input.GetButtonDown("Menu")) //OLD_ Pausar juego
+        //{
+        //    PauseMenu.Instance.Display();
+        //}
+
+        if (CanPause && pauseGame.IsPressed()) //NEW_ Pausar juego
         {
             PauseMenu.Instance.Display();
+            //myPlayerInputActions.Player.Disable();
+            //myPlayerInputActions.UI.Enable();           
         }
 
-        FullscreenMap.Instance.gameObject.SetActive(Input.GetButton("Map")); //Abrir el mapa
+        
+        //if (!CanPause && pauseGame.IsPressed()) //NEW_ Pausar juego
+        //{
+        //    PauseMenu.Instance.Display();
+        //}
+
+        //FullscreenMap.Instance.gameObject.SetActive(Input.GetButton("Map")); //Abrir el mapa
+        FullscreenMap.Instance.gameObject.SetActive(map.IsPressed()); //Abrir el mapa
+
 
         bool wasGrounded = m_Grounded;
         loosedGrounding = false;
@@ -205,10 +241,9 @@ public class Controller : MonoBehaviour
 
             // Move around with WASD---------------------------------------------------------
 
-            //move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+            //move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxisRaw("Vertical")); // OLD
             move = new Vector3(movePlayer.ReadValue<Vector2>().x, 0, movePlayer.ReadValue<Vector2>().y); //Nuevo sistema
 
-            //print(movePlayer.ReadValue<Vector2>());
 
             if (move.sqrMagnitude > 1.0f)
             {
@@ -391,54 +426,99 @@ public class Controller : MonoBehaviour
         FootstepPlayer.PlayRandom();
     }
 
+    //----------------------------------------------------------MODIFICACIONES--------------------------------------------------------------
 
-
-    public void NewJump(InputAction.CallbackContext context)
+    public void NewJump(InputAction.CallbackContext context) //Salto
     {
-        if (m_Grounded && context.started)
+        if (!m_IsPaused && !LockControl)
         {
-            m_VerticalSpeed = JumpSpeed;
-            m_Grounded = false;
-            //loosedGrounding = true;
-            FootstepPlayer.PlayClip(JumpingAudioCLip, 0.8f, 1.1f);
-            Debug.Log("Im jumpin");
+            if (m_Grounded && context.started)
+            {
+                m_VerticalSpeed = JumpSpeed;
+                m_Grounded = false;
+                //loosedGrounding = true;
+                FootstepPlayer.PlayClip(JumpingAudioCLip, 0.8f, 1.1f);
+                //Debug.Log("Im jumpin");
+            }
         }
-        //Debug.Log("Input");
+
+
     }
 
     public void FireWeapon(InputAction.CallbackContext context)
     {
-        //m_Weapons[m_CurrentWeapon].triggerDown = Input.GetMouseButton(0);
-        if (!context.canceled)
+        if (!m_IsPaused && !LockControl)
         {
-            m_Weapons[m_CurrentWeapon].triggerDown = true;
+
+            if (!context.canceled)
+            {
+                m_Weapons[m_CurrentWeapon].triggerDown = true;
+            }
+            else
+            {
+                m_Weapons[m_CurrentWeapon].triggerDown = false;
+            }
         }
-        else
-        {
-            m_Weapons[m_CurrentWeapon].triggerDown = false;
-        }
-        //Debug.Log("Input:" + context);
+
     }
 
     public void ReloadWeapon(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (!m_IsPaused && !LockControl)
         {
-            m_Weapons[m_CurrentWeapon].Reload();
+            if (context.started)
+            {
+                m_Weapons[m_CurrentWeapon].Reload();
+            }
         }
+
     }
 
     public void Input_ChangeWeapon(InputAction.CallbackContext context)
     {
-        if (changeWeapon.ReadValue<Vector2>().y < 0  || changeWeapon.ReadValue<Vector2>().x < 0)
+        if (!m_IsPaused && !LockControl)
         {
-            ChangeWeapon(m_CurrentWeapon - 1);
+            if (changeWeapon.ReadValue<Vector2>().y < 0  || changeWeapon.ReadValue<Vector2>().x < 0)
+            {
+                ChangeWeapon(m_CurrentWeapon - 1);
+            }
+            else if (changeWeapon.ReadValue<Vector2>().y > 0 || changeWeapon.ReadValue<Vector2>().x > 0)
+            {
+                ChangeWeapon(m_CurrentWeapon + 1);
+            }
         }
-        else if (changeWeapon.ReadValue<Vector2>().y > 0 || changeWeapon.ReadValue<Vector2>().x > 0)
+
+    }
+
+
+    public void SavePlayer(InputAction.CallbackContext context)
+    {
+        if (context.started)
         {
-            ChangeWeapon(m_CurrentWeapon + 1);
+            SaveSystem.SavePlayer(this);
+            Debug.Log("Saved Position: " + transform.position);
+
         }
-        //Debug.Log("Input:" + context);
+    }
+
+    public void LoadPlayer(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            SaveData data = SaveSystem.LoadPlayer();
+
+            //Se cargan los datos guardados y se asignan
+            Vector3 position;
+            position.x = data.playerPosition[0];
+            position.y = data.playerPosition[1];
+            position.z = data.playerPosition[2];
+
+            //this.gameObject.transform.position = position;
+
+            Debug.Log("Loaded data: " + data.playerPosition[0].ToString("f1") + ", " + data.playerPosition[1].ToString("f1") + ", " + data.playerPosition[2].ToString("f1"));
+        }
+        
+
     }
 
     /*public void NewMovement(InputAction.CallbackContext context)
